@@ -9,7 +9,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>
+			<body suppressHydrationWarning>
 				<div className={style.container}>
 					<header>
 						<Link href={"/"}>ONEBITE CINEMA</Link>
