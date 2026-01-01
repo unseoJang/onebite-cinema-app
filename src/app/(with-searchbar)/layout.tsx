@@ -1,5 +1,5 @@
 import Searchbar from "@/components/searchbar"
-import type { ReactNode } from "react"
+import { Suspense, type ReactNode } from "react"
 
 export default function WithSearchbarLayout({
 	children,
@@ -8,7 +8,9 @@ export default function WithSearchbarLayout({
 }>) {
 	return (
 		<div>
-			<Searchbar />
+			<Suspense fallback={<div>Loading...</div>}>
+				<Searchbar />
+			</Suspense>
 			{children}
 		</div>
 	)
