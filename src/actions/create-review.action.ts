@@ -2,12 +2,17 @@
 
 import { revalidatePath } from "next/cache"
 
-export async function createReviewAction(formData: FormData) {
+export async function createReviewAction(_: unknown, formData: FormData) {
 	const movieId = formData.get("movieId")?.toString() as string
 	const content = formData.get("reviewText")?.toString() as string
 	const author = formData.get("author")?.toString() as string
 
-	if (!movieId || !content || !author) return
+	if (!movieId || !content || !author) {
+		return {
+			status: false,
+			error: "리뷰 내용과 작성자를 입력해주세요",
+		}
+	}
 
 	try {
 		const response = await fetch(
@@ -30,9 +35,15 @@ export async function createReviewAction(formData: FormData) {
 		}
 
 		console.log(response.status)
-		// revalidatePath(`/movie/${movieId}`)
+		revalidatePath(`/movie/${movieId}`)
+		return {
+			status: true,
+			error: "",
+		}
 	} catch (err) {
-		console.error(err)
-		return
+		return {
+			status: false,
+			error: `리뷰 저장에 실패했습니다 : ${err}`,
+		}
 	}
 }
